@@ -15,7 +15,7 @@ export default function SideNav() {
         className="w-32 text-white  md:w-40"
         >
           <AcmeLogo/>
-        </div>''
+        </div>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
 

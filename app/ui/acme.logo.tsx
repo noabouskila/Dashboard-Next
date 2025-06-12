@@ -1,5 +1,4 @@
 import { GlobeAltIcon } from "@heroicons/react/24/outline";
-import { defaultOverrides } from "next/dist/server/require-hook";
 import { lusitana } from "./fonts";
 
 
