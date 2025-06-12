@@ -3,6 +3,8 @@ import { lusitana } from "./ui/fonts";
 import HeroDesktop from "../public/hero-desktop.png"
 import HeroMobile from "../public/hero-mobile.png"
 import AcmeLogo from "./ui/acme.logo";
+import Link from "next/link";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 
 export default function Page() {
@@ -21,6 +23,10 @@ export default function Page() {
               <br />
               Application de Next.js proposée par Vercel .
            </p>
+           <Link href="/login" className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base">
+              <span>Connexion</span>
+              <ArrowRightIcon className="h-5 md:w-6 " />
+           </Link>
         </div>
         <div className="flex items-center justify center  p-6 md:w-3/5 md;px-28 md:py-12">
           {/* IMAGES */}
