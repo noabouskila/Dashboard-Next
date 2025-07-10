@@ -8,9 +8,9 @@ from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
 
 const iconMap = {
-    invoices:  ClockIcon,
+    invoices:   InboxIcon,
     customers: UserGroupIcon,
-    pending: InboxIcon,
+    pending: ClockIcon,
     collected: BanknotesIcon
 };  
 

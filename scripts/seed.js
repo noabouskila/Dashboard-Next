@@ -70,6 +70,7 @@ async function seedUsers(client) {
 async function seedInvoices(client) {
     // 1)  creation de la table invoices
    try {
+        await client.sql`DROP TABLE IF EXISTS invoices;`;
        
         // uuid cle specifique pour chaque facture
         await client.sql`
@@ -81,7 +82,9 @@ async function seedInvoices(client) {
                 customer_id UUID NOT NULL,
                 amount INT NOT NULL,
                 status VARCHAR(255) NOT NULL,   
-                date DATE NOT NULL 
+                date DATE NOT NULL ,
+                created_at TIMESTAMP DEFAULT now()
+                UNIQUE (customer_id, amount, status, date ,created_at)
             );
         `;
 
@@ -93,9 +96,8 @@ async function seedInvoices(client) {
             invoices.map( async invoice => {
                 return client.sql`
                     INSERT INTO invoices (customer_id, amount, status, date)
-                    VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})
-                   
-                    ON CONFLICT (id) DO NOTHING;
+                    VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})    
+                    ON CONFLICT (id ,customer_id, amount, status, date, created_at) DO NOTHING;
                 `;
                 
             })
@@ -225,8 +227,10 @@ async function main() {
 
     //   appels des fonctions pour creer les tables et insérer les données
     await seedUsers(client);
-    await seedInvoices(client);
+
     await seedCustomers(client);
+    await seedInvoices(client);
+    
     await seedRevenue(client);
 
 
@@ -240,3 +244,4 @@ main().catch((err) => {
   console.error("une erreur s'est produite:", err);
 //   process.exit(1);
 });
+
