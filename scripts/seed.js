@@ -1,7 +1,5 @@
 const { db }    = require ('@vercel/postgres');
 
-console.log("MON POSTGRES_URL:", process.env.POSTGRES_URL);
-
 
 // import fake data
 const {
