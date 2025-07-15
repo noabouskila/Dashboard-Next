@@ -1,5 +1,6 @@
 const { db }    = require ('@vercel/postgres');
 
+console.log("MON POSTGRES_URL:", process.env.POSTGRES_URL);
 
 
 // import fake data
@@ -12,6 +13,7 @@ const {
 
 // import du bcrypt pour crypter le mot de passe
 const bcrypt = require('bcrypt');
+
 
 
 // fonction pour gestion  table users
@@ -47,7 +49,7 @@ async function seedUsers(client) {
                     VALUES ( ${user.id} ,${user.name}, ${user.email}, ${hashedPassword})
                     -- ON CONFLICT permet d'ignorer les doublons basés sur l'email
                     -- Si l'email existe déjà, la ligne ne sera pas insérée à nouveau
-                    ON CONFLICT (id) DO NOTHING;
+                    ON CONFLICT (email) DO NOTHING;
                 `;
             })
         );
@@ -70,7 +72,7 @@ async function seedUsers(client) {
 async function seedInvoices(client) {
     // 1)  creation de la table invoices
    try {
-        await client.sql`DROP TABLE IF EXISTS invoices;`;
+        
        
         // uuid cle specifique pour chaque facture
         await client.sql`
@@ -79,11 +81,11 @@ async function seedInvoices(client) {
         const createTable = await client.sql`
             CREATE TABLE IF NOT EXISTS invoices (
                 id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-                customer_id UUID NOT NULL,
+                customer_id UUID NOT NULL REFERENCES customers(id),
                 amount INT NOT NULL,
                 status VARCHAR(255) NOT NULL,   
                 date DATE NOT NULL ,
-                created_at TIMESTAMP DEFAULT now()
+                created_at TIMESTAMP DEFAULT now(),
                 UNIQUE (customer_id, amount, status, date ,created_at)
             );
         `;
@@ -97,7 +99,7 @@ async function seedInvoices(client) {
                 return client.sql`
                     INSERT INTO invoices (customer_id, amount, status, date)
                     VALUES (${invoice.customer_id}, ${invoice.amount}, ${invoice.status}, ${invoice.date})    
-                    ON CONFLICT (id ,customer_id, amount, status, date, created_at) DO NOTHING;
+                    ON CONFLICT (customer_id, amount, status, date, created_at) DO NOTHING;
                 `;
                 
             })
@@ -222,7 +224,6 @@ async function main() {
 
     // connexion bdd
     const client = await db.connect();
-    console.log(client);
 
 
     //   appels des fonctions pour creer les tables et insérer les données
@@ -233,9 +234,10 @@ async function main() {
     
     await seedRevenue(client);
 
-
     // terminer connexion a bdd quand toutes les requetes sont faites
     await client.end();
+
+    console.log("✅ Tous les seeds ont été exécutés avec succès !");
 }
 
 
