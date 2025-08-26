@@ -1,9 +1,17 @@
-import { Revenue } from "@/app/lib/definitions";
+// import { Revenue } from "@/app/lib/definitions";
 import { generateYAxis } from "@/app/lib/utils";
 import { lusitana } from "@/app/ui/fonts";
 import { CalendarIcon } from "@heroicons/react/24/outline";
+import {fetchRevenue} from "@/app/lib/data"
 
-export  default  async function RevenueChart( { revenue } : {revenue: Revenue[]}) {
+
+
+// export  default  async function RevenueChart( { revenue } : {revenue: Revenue[]}) {
+export  default  async function RevenueChart() {
+
+    const revenue =await fetchRevenue(); // appel de la fonction dans ce composant  pour simuler le chargement de skeleton que dans ce composant precis 
+
+
 
     // definir la hauteur du graphique
     const chartHeight = 350;

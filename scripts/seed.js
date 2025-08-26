@@ -70,7 +70,7 @@ async function seedUsers(client) {
 async function seedInvoices(client) {
     // 1)  creation de la table invoices
    try {
-        
+        // await client.sql`DROP TABLE IF EXISTS invoices;`;
        
         // uuid cle specifique pour chaque facture
         await client.sql`

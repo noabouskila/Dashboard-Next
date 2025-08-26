@@ -13,6 +13,25 @@ const iconMap = {
     pending: ClockIcon,
     collected: BanknotesIcon
 };  
+import { fetchCardData  } from "@/app/lib/data"
+
+
+
+
+export default async function CardWrapper() {
+    const {collected , pending ,customers , invoices} =  await fetchCardData();
+
+    return(
+        <>
+            <Card   title='Factures collectées' value={collected}  type="collected"/>
+            <Card   title='Factures en attente' value={pending}  type="pending"/>
+            <Card   title='Nombre de clients' value={customers}  type="customers"/>
+            <Card   title='Total des factures' value={invoices}  type="invoices"/>
+        </>
+         
+    )
+}
+
 
 
 export function Card({title , value , type} : {

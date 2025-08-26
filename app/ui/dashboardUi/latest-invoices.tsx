@@ -1,10 +1,15 @@
-import { LatestInvoice } from '../../lib/definitions';
+// import { LatestInvoice } from '../../lib/definitions';
 import { lusitana } from '@/app/ui/fonts';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { ArrowPathIcon } from '@heroicons/react/24/outline';
+import { fetchLatestInvoices } from '@/app/lib/data';
 
-export default async function LatestInvoices({LatestInvoices}: { LatestInvoices: LatestInvoice[] }) {
+// export default async function LatestInvoices({LatestInvoices}: { LatestInvoices: LatestInvoice[] }) {
+export default async function LatestInvoices() {
+
+    const latestInvoices = await fetchLatestInvoices(); // appel de la fonction dans ce composant  pour simuler le chargement de skeleton que dans ce composant precis 
+
 
     return(
         <div className='flex w-full flex-col md:col-span-4'>
@@ -17,7 +22,7 @@ export default async function LatestInvoices({LatestInvoices}: { LatestInvoices:
 
                     {/* map des latest invoices  */}
                     {
-                        LatestInvoices.map((invoice , index) => {
+                        latestInvoices.map((invoice , index) => {
                             return (
                                 <div 
                                 className={

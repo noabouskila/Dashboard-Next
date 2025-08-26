@@ -1,13 +1,16 @@
 import { sql} from '@vercel/postgres';
 import { formatCurrency } from './utils';
-import { Revenue } from './definitions';
+import { InvoicesTable, Revenue } from './definitions';
 import { LatestInvoiceRaw } from './definitions';
+import { unstable_noStore as noStore } from 'next/cache';
 
 // permet de recuperer les donnees de la base de donnee
 
 export async function fetchCardData() {
-
+    noStore(); // empeche la mise en cache de cette fonction
     try{
+
+        // ici on met le await seulement a la fin en promiseAll pour faire les requetes en paralelle
 
         // 1) nombre de factures collectées
         const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
@@ -60,10 +63,22 @@ export async function fetchCardData() {
 }
 
 export async function fetchRevenue() {
+    noStore();
+
+    // // simulation du temps de chargement 
+    // console.log("recuperation des donnéees de revenue...");
+    // await new Promise ((resolve)=> 
+    //     (setTimeout(resolve , 3000)
+    // ) )
+    // // 
+
+
     try {
         // 1) on recupere les revenus mensuels des 12 derniers mois
         const data = await sql<Revenue>`SELECT * FROM revenue `
         
+        // console.log("Recuperation des données de revenue terminée  apres 3 secondes");
+
         return  data.rows;
 
             
@@ -75,6 +90,15 @@ export async function fetchRevenue() {
 
 
 export async function fetchLatestInvoices() {
+    noStore();
+
+    //    // simulation du temps de chargement 
+    // console.log("recuperation des donnéees des dernieres factures ...");
+    // await new Promise ((resolve)=> 
+    //     (setTimeout(resolve , 1500)
+    // ) )
+    // // 
+
     try {
         // 1) on recupere les 5 dernieres factures :
         // avec info client et montant 
@@ -95,11 +119,64 @@ export async function fetchLatestInvoices() {
             amount: formatCurrency(invoice.amount)  // on formate le montant en devise
         }))
 
+        // console.log("Recuperation des données de revenue terminée  apres 1.5 secondes");
+
         return latestInvoices;
 
     }   
     catch (error) {
         console.error("Error fetching latest invoices:", error);
         throw new Error("Failed to fetch latest invoices");
+    }
+}
+
+
+
+const ITEMS_PER_PAGE = 6;
+
+export async function fetchFilteredInvoices(query :string , currentPage : number) {
+
+    noStore()
+    // commencer la pagination a partir de 0
+    // offset definit le nombre d'elements a sauter avant de commencer a recuperer les elements cest a dire le point de depart des elements a recuperer
+    const offset = (currentPage - 1)*ITEMS_PER_PAGE
+
+    try{
+        
+
+        const invoices = await sql<InvoicesTable>`
+        SELECT
+        invoices.id ,
+        invoices.amount,
+        invoices.date,
+        invoices.status,
+        customers.name ,
+        customers.email,
+        customers.image_url
+
+        FROM invoices
+        JOIN customers ON invoices.customer_id = customers.id
+
+        WHERE
+        customers.name ILIKE ${`%${query}%`}::text
+        OR customers.email ILIKE ${`%${query}%`}::text
+        OR invoices.amount::text ILIKE ${`%${query}%`}::text
+        OR invoices.date::text ILIKE ${`%${query}%`}::text
+        OR invoices.status ILIKE ${`%${query}%`}::text
+
+        ORDER BY invoices.date DESC
+        LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+        `;
+        // ilike permet  de faire une recherhe de comparaison insensible a la casse
+        // ::text permet de convertir un champ en texte pour pouvoir faire une recherche avec ilike
+
+
+        return invoices.rows
+        // .rows permet de recuperer que le tableau des resultats pas les metadonnées
+
+    }catch (error) {
+        console.error("Error fetching filtered invoices:", error);
+        console.dir(error, { depth: null });
+        throw new Error("Failed to fetch filtered invoices");
     }
 }
