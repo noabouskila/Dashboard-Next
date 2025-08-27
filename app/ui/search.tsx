@@ -2,6 +2,7 @@
 "use client"
 import  { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useSearchParams  , usePathname , useRouter} from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
 
 
 
@@ -14,22 +15,27 @@ export default function Search({placeholder} : {placeholder : string}){
     const {replace} = useRouter();
 
 
-    function handleSearch(term : string) {
+    // useDebounce envi la requete qune seule fois apres le delai  :
+    //  1er agrument : la fonction a debouncer , 2eme argument : delai en ms
+    const handleSearch =  useDebouncedCallback((term : string)=> {
+      // url search params sert a manipuler les parametres de l'url
+      const params = new URLSearchParams(searchParams);
 
-        // url search params sert a manipuler les parametres de l'url
-        const params = new URLSearchParams(searchParams);
+      // indiquer la clé page
+      params.set("page", "1");
 
-        // .set permet d'ajouter ou de mettre a jour un parametre
-        if(term){
-            params.set("query", term);
-        }else{
-            // si le terme est vide on supprime le parametre de recherche
-            params.delete("query");
-        }
+      // .set permet d'ajouter ou de mettre a jour un parametre
+      if (term) {
+        params.set("query", term);
+      } else {
+        // si le terme est vide on supprime le parametre de recherche
+        params.delete("query");
+      }
 
-        replace(`${pathname}?${params.toString()}`)
+      replace(`${pathname}?${params.toString()}`);
+    } , 300);
 
-    }
+
  
 
 

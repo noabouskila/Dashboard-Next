@@ -180,3 +180,35 @@ export async function fetchFilteredInvoices(query :string , currentPage : number
         throw new Error("Failed to fetch filtered invoices");
     }
 }
+
+
+export async function fetchInvoicesPages(query :string) {
+
+    noStore()
+
+    try{
+
+        // total du nombre de factures correspondant a la recherche
+        const count = await sql`SELECT COUNT(*) 
+        FROM invoices
+        JOIN customers ON invoices.customer_id = customers.id
+        WHERE 
+        customers.name ILIKE ${`%${query}%`}::text
+        OR customers.email ILIKE ${`%${query}%`}::text
+        OR invoices.amount::text ILIKE ${`%${query}%`}::text
+        OR invoices.date::text ILIKE ${`%${query}%`}::text
+        OR invoices.status ILIKE ${`%${query}%`}::text
+        `;
+
+        // arrondir à l'entier supérieur pour obtenir le nombre total de pages
+        const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE)
+
+        return totalPages;
+
+    }catch (error) {
+        console.error("Error fetching invoices pages:", error);
+        throw new Error("Failed to fetch ivoices pages");
+    }
+        
+       
+}

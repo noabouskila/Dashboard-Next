@@ -30,3 +30,50 @@ export const generateYAxis = (revenue : Revenue []) => {
 
     return topLabel
 }
+
+// formater une date au format local (fr-FR)
+export const formatDateToLocal = (
+    dateStr : string ,
+    locale :string = 'fr-FR'
+)=>{
+
+    // convertir la chaine de caractere en objet Date
+    const date = new Date(dateStr);
+    
+    // Intl.DateTimeFormat pour formater des dates en fonction de la langue/région.
+    const options : Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    };
+
+    // utiliser Intl.DateTimeFormat pour formater la date selon le locale spécifié
+    const formatter = new Intl.DateTimeFormat(locale, options)
+
+    return formatter.format(date);
+}
+
+// -----------------------------------------------------------------
+export const generatePagination = (currentPage : number , totalPages : number ) => {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1);
+  }
+
+  // si on est dans les 3 premiers pages , si oui afficher :
+  // [1][2][3] [...][5][6]
+  if (currentPage <= 3) {
+    return [1, 2, 3, "...", totalPages - 1, totalPages];
+  }
+
+  // si on est dans les  3 dernieres pages ,si oui afficher
+  // [1][2] [...][4][5][6]
+  if (currentPage >= totalPages - 2) {
+    return [1, 2, "...", totalPages - 2, totalPages - 1, totalPages];
+  }
+
+  // si la page actuelle  fait partie pages du milieu ,si oui afficher :
+  // [1] [...]  [currentPage-1] [currentPage ] [currentPage+1][...] [totalPages]
+  if (currentPage >= totalPages - 2) {
+    return [1, "...", currentPage-1 , currentPage , currentPage + 1,"..." , totalPages];
+  }
+}
