@@ -1,7 +1,7 @@
 import { sql} from '@vercel/postgres';
 import { formatCurrency } from './utils';
-import { InvoicesTable, Revenue } from './definitions';
-import { LatestInvoiceRaw } from './definitions';
+import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw  } from './definitions';
+
 import { unstable_noStore as noStore } from 'next/cache';
 
 // permet de recuperer les donnees de la base de donnee
@@ -211,4 +211,28 @@ export async function fetchInvoicesPages(query :string) {
     }
         
        
+}
+
+export async function fetchCustomers(){
+    noStore()
+
+    try {
+      //  odre croissant au niveau du name
+      const data = await sql<CustomerField>`
+        SELECT 
+            id , 
+            name 
+        FROM 
+        customers 
+        ORDER BY name 
+        ASC`;
+
+      // acceder aux lignes rows de la requetes
+      const customers = data.rows;
+      return customers;
+    } catch (error) {
+      console.error("Error fetching customers:", error);
+      throw new Error("Failed to fetch customers");
+    }
+        
 }
