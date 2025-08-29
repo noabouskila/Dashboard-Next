@@ -1,52 +1,47 @@
 {
-  
-  "extends": [
-    "next/core-web-vitals",
-    "eslint:recommended"
-  ],
+
+  "extends": ["next/core-web-vitals", "eslint:recommended"],
   "rules": {
-    "import/order": [
-      "warn",
-      {
-        "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"],
-        "newlines-between": "always"
-      }
-    ]
-  },
-  "overrides": [
-    {
-      "files": [
-        "app/**/page.tsx",
-        "app/**/layout.tsx",
-        "app/**/loading.tsx",
-        "app/**/error.tsx",
-        "app/**/not-found.tsx"
-      ],
-      "rules": {
-        "import/no-unused-modules": "off"
-      }
-    }
-  ] 
-  
-  
-  // "extends": ["next/core-web-vitals", "next/typescript"] ,
+    // ✅ Supprimer le faux positif "React is not defined"
+    "no-undef": "off",
 
-  
-    // "root": true,
-    // "extends": ["eslint:recommended", "plugin:import/errors", "plugin:import/warnings", "next/core-web-vitals"],
-    // "plugins": ["import"],
-    // "rules": {
-    //   "import/no-unused-modules": ["warn", { "unusedExports": true }],
-    //   "no-unused-vars": ["warn"],
-    //   "import/order": [
-    //     "warn",
-    //     {
-    //       "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
-    //       "newlines-between": "always"
-    //     }
-    //   ]
-    // }
+    // ✅ Corriger les faux positifs sur page.tsx, layout.tsx, etc.
+    "import/no-unused-modules": "off",
 
-  
-  
+    // ✅ Optionnel : si trop strict
+    "no-unused-vars": "warn",
+    "import/order": "warn",
+    "import/no-duplicates": "warn",
+    "import/no-named-as-default": "warn"
+  }
+
+  // "extends": [
+  //   "next/core-web-vitals",
+  //   "eslint:recommended"
+  // ],
+  // "rules": {
+  //   "import/order": [
+  //     "warn",
+  //     {
+  //       "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"],
+  //       "newlines-between": "always"
+  //     }
+  //   ]
+  // },
+  // "overrides": [
+  //   {
+  //     "files": [
+  //       "app/**/page.tsx",
+  //       "app/**/layout.tsx",
+  //       "app/**/loading.tsx",
+  //       "app/**/error.tsx",
+  //       "app/**/not-found.tsx"
+  //     ],
+  //     "rules": {
+  //       "import/no-unused-modules": "off"
+  //     }
+  //   }
+  // ]
+
+ 
 }
