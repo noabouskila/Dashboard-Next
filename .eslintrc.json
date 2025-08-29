@@ -1,47 +1,13 @@
 {
-
   "extends": ["next/core-web-vitals", "eslint:recommended"],
   "rules": {
-    // ✅ Supprimer le faux positif "React is not defined"
-    "no-undef": "off",
-
-    // ✅ Corriger les faux positifs sur page.tsx, layout.tsx, etc.
-    "import/no-unused-modules": "off",
-
-    // ✅ Optionnel : si trop strict
-    "no-unused-vars": "warn",
-    "import/order": "warn",
-    "import/no-duplicates": "warn",
-    "import/no-named-as-default": "warn"
+    "no-undef": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect",
+      "pragma": "React",
+      "jsx-runtime": "automatic"
+    }
   }
-
-  // "extends": [
-  //   "next/core-web-vitals",
-  //   "eslint:recommended"
-  // ],
-  // "rules": {
-  //   "import/order": [
-  //     "warn",
-  //     {
-  //       "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object"],
-  //       "newlines-between": "always"
-  //     }
-  //   ]
-  // },
-  // "overrides": [
-  //   {
-  //     "files": [
-  //       "app/**/page.tsx",
-  //       "app/**/layout.tsx",
-  //       "app/**/loading.tsx",
-  //       "app/**/error.tsx",
-  //       "app/**/not-found.tsx"
-  //     ],
-  //     "rules": {
-  //       "import/no-unused-modules": "off"
-  //     }
-  //   }
-  // ]
-
- 
 }
