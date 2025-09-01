@@ -260,7 +260,10 @@ export async function fetchInvoiceById(id : string){
         return invoice[0]; // retourner la premiere ligne (la facture correspondante)
         
     } catch (error) {
-        console.error("Error fetching invoice by id:", error);
-        throw new Error("Failed to fetch invoice by id");
+        
+        // console.error("Error fetching invoice by id:", error);
+        // throw new Error("Failed to fetch invoice by id");
+
+        return null; // pour gerer l'erreur dans la page de notFound
     }
 }

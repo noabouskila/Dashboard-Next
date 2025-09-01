@@ -1,4 +1,4 @@
-
+'use client';
 import {
   CheckIcon,
   ClockIcon,
@@ -9,12 +9,18 @@ import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { CustomerField } from "@/app/lib/definitions";
 import { createInvoiceAction } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
 
 export default function CreateForm({ customers }:{ customers : CustomerField[]}) {
 
+  const initialState = {
+    message : null, 
+    errors : {}
+  }
+  const [state , dispatch] =  useFormState(createInvoiceAction , initialState);
 
   return (
-    <form action={createInvoiceAction}>
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Nom du client */}
         <div className="mb-4">
@@ -27,6 +33,8 @@ export default function CreateForm({ customers }:{ customers : CustomerField[]})
               name="customerId"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               defaultValue=""
+              // decrit l'element qui cause l'erreur
+              aria-describedby="customer-error"
             >
               <option value="" disabled>
                 Choisir un client
@@ -40,6 +48,19 @@ export default function CreateForm({ customers }:{ customers : CustomerField[]})
               ))}
             </select>
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          </div>
+          {/* gestion d'erreur */}
+          <div
+            id="customer-error"
+            aria-live="polite" // annonce les changements de texte aux lecteurs d'ecran seulement quand le user interagit avec le formulaire
+            aria-atomic="true" // annonce le contenu entier de l'element lorsqu'il change
+          >
+            {state.errors?.customerId &&
+              state.errors.customerId.map((error: string) => (
+                <p key={error} className="mt-2 text-sm text-red-500">
+                  {error}
+                </p>
+              ))}
           </div>
         </div>
 
@@ -57,8 +78,25 @@ export default function CreateForm({ customers }:{ customers : CustomerField[]})
                 step="0.01"
                 placeholder="Entrez un montant en USD"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                // required
+                // decrit l'element qui cause l'erreur
+                aria-describedby="amount-error"
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+
+            {/* gestion d'erreur */}
+            <div
+              id="amount-error"
+              aria-live="polite" // annonce les changements de texte aux lecteurs d'ecran seulement quand le user interagit avec le formulaire
+              aria-atomic="true" // annonce le contenu entier de l'element lorsqu'il change
+            >
+              {state.errors?.amount &&
+                state.errors.amount.map((error: string) => (
+                  <p key={error} className="mt-2 text-sm text-red-500">
+                    {error}
+                  </p>
+                ))}
             </div>
           </div>
         </div>
@@ -76,6 +114,8 @@ export default function CreateForm({ customers }:{ customers : CustomerField[]})
                   type="radio"
                   value="pending"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  // decrit l'element qui cause l'erreur
+                  aria-describedby="status-error"
                 />
                 <label
                   htmlFor="pending"
@@ -91,6 +131,8 @@ export default function CreateForm({ customers }:{ customers : CustomerField[]})
                   type="radio"
                   value="paid"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
+                  // decrit l'element qui cause l'erreur
+                  aria-describedby="status-error"
                 />
                 <label
                   htmlFor="paid"
@@ -101,7 +143,37 @@ export default function CreateForm({ customers }:{ customers : CustomerField[]})
               </div>
             </div>
           </div>
+
+          {/* gestion d'erreur */}
+          <div
+            id="status-error"
+            aria-live="polite" // annonce les changements de texte aux lecteurs d'ecran seulement quand le user interagit avec le formulaire
+            aria-atomic="true" // annonce le contenu entier de l'element lorsqu'il change
+          >
+            {state.errors?.status &&
+              state.errors.status.map((error: string) => (
+                <p key={error} className="mt-2 text-sm text-red-500">
+                  {error}
+                </p>
+              ))}
+          </div>
         </fieldset>
+
+        {/* Message d'erreur global */}
+        <div
+          aria-live="polite" // annonce les changements de texte aux lecteurs d'ecran seulement quand le user interagit avec le formulaire
+          aria-atomic="true" // annonce le contenu entier de l'element lorsqu'il change
+        >
+          {state.message?(
+              <p  className="mt-2 text-sm text-red-500">
+                {state.message}
+              </p>
+            ) : null
+          }
+        </div>
+
+
+
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link

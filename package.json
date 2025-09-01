@@ -6,7 +6,8 @@
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
     "start": "next start",
-    "seed": "node -r dotenv/config scripts/seed.js dotenv_config_path=.env.local"
+    "seed": "node -r dotenv/config scripts/seed.js dotenv_config_path=.env.local",
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
