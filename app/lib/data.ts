@@ -1,6 +1,6 @@
 import { sql} from '@vercel/postgres';
 import { formatCurrency } from './utils';
-import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw  } from './definitions';
+import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw , InvoiceForm } from './definitions';
 
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -235,4 +235,32 @@ export async function fetchCustomers(){
       throw new Error("Failed to fetch customers");
     }
         
+}
+
+
+export async function fetchInvoiceById(id : string){
+    noStore()
+
+    try {
+        const data = await sql<InvoiceForm>`
+        SELECT
+        invoices.id,
+        invoices.customer_id ,
+        invoices.amount,
+        invoices.status
+        FROM invoices
+        WHERE invoices.id = ${id};
+        `;
+
+        const invoice = data.rows.map((invoice)=>({
+            ...invoice,
+            amount: invoice.amount / 100  // convertir en dollars
+        }))
+
+        return invoice[0]; // retourner la premiere ligne (la facture correspondante)
+        
+    } catch (error) {
+        console.error("Error fetching invoice by id:", error);
+        throw new Error("Failed to fetch invoice by id");
+    }
 }

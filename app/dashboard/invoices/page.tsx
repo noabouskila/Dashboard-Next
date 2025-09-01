@@ -1,6 +1,6 @@
 import { lusitana } from "@/app/ui/fonts"
 import Search from "@/app/ui/search"
-import CreateBtnInvoice from "@/app/ui/invoicesUi/buttons";
+import {CreateBtnInvoice} from "@/app/ui/invoicesUi/buttons";
 import InvoiceTable from "@/app/ui/invoicesUi/table"
 import { Suspense } from 'react';
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons"
