@@ -1,6 +1,6 @@
 import { sql} from '@vercel/postgres';
 import { formatCurrency } from './utils';
-import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw , InvoiceForm , CustomersTableType , FormattedCustomersTable } from './definitions';
+import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw , InvoiceForm , CustomersTableType } from './definitions';
 
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -268,18 +268,9 @@ export async function fetchInvoiceById(id : string){
     }
 }
 
-export async function fetchFilteredCustomers(
-  query: string,
-  currentPage: number
-)
-// : Promise<FormattedCustomersTable[]>
- {
+export async function fetchFilteredCustomers(query: string){
 
   noStore();
-
-  // commencer la pagination a partir de 0
-  // offset definit le nombre d'elements a sauter avant de commencer a recuperer les elements cest a dire le point de depart des elements a recuperer
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
     const data = await sql<CustomersTableType>`
@@ -302,13 +293,6 @@ export async function fetchFilteredCustomers(
             GROUP BY customers.id, customers.name, customers.email, customers.image_url
             ORDER BY customers.name ASC`;
 
-    // formater les donnees pour l'affichage
-    // const customers: FormattedCustomersTable[] = data.rows.map((customer) => ({
-    //   ...customer,
-    //   total_invoices: Number(customer.total_invoices ?? 0),
-    //   total_pending: formatCurrency(Number(customer.total_pending ?? 0)),
-    //   total_paid: formatCurrency(Number(customer.total_paid ?? 0)),
-    // }));
 
     // formater les donnees pour l'affichage
     const customers= data.rows.map((customer) => ({
