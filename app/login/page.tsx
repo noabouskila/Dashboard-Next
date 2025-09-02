@@ -17,6 +17,13 @@ const LoginPage = () => {
         <Suspense fallback={<p>Chargement du formulaire...</p>}>
           <LoginForm />
         </Suspense>
+        <div className="mt-4 rounded-md bg-gray-50 p-4 text-center text-sm text-gray-700">
+          <p>
+            si vous souhaitez decouvrir le Dashboard que j&apos;ai crée :
+            connectez vous grace à
+          </p>
+          <span>email: user@gmail.com, password: 123456</span>
+        </div>
       </div>
     </main>
   );
