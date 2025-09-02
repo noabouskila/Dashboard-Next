@@ -1,4 +1,5 @@
-'use client';
+"use client"
+import { useActionState } from "react";
 import {
   CheckIcon,
   ClockIcon,
@@ -8,25 +9,27 @@ import {
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { CustomerField, InvoiceForm } from "@/app/lib/definitions";
-import {UpdateInvoiceAction} from "@/app/lib/actions";
-import { useFormState } from "react-dom";
+import { UpdateInvoiceAction } from "@/app/lib/actions";
 
 export default function EditForm({
   customers,
-  invoice
+  invoice,
 }: {
-  customers: CustomerField[],
-    invoice: InvoiceForm
+  customers: CustomerField[];
+  invoice: InvoiceForm;
 }) {
   const initialState = {
-    message: null,
+    message: "",
     errors: {},
   };
 
   // on lie la fonction avec l'id de la facture a modifier avec le bind car on ne peut pas passer d'argument supplementaire a une action : pour une meilleure securite
   const UpdateInvoiceActionWithId = UpdateInvoiceAction.bind(null, invoice.id);
 
-  const [state, dispatch] = useFormState( UpdateInvoiceActionWithId, initialState );
+  const [state, dispatch] = useActionState(
+    UpdateInvoiceActionWithId,
+    initialState
+  );
 
   return (
     <form action={dispatch}>
@@ -177,8 +180,6 @@ export default function EditForm({
             <p className="mt-2 text-sm text-red-500">{state.message}</p>
           ) : null}
         </div>
-
-        
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
