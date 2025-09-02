@@ -1,6 +1,6 @@
 import { sql} from '@vercel/postgres';
 import { formatCurrency } from './utils';
-import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw , InvoiceForm } from './definitions';
+import { InvoicesTable, Revenue , CustomerField ,LatestInvoiceRaw , InvoiceForm , CustomersTableType , FormattedCustomersTable } from './definitions';
 
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -266,4 +266,63 @@ export async function fetchInvoiceById(id : string){
 
         return null; // pour gerer l'erreur dans la page de notFound
     }
+}
+
+export async function fetchFilteredCustomers(
+  query: string,
+  currentPage: number
+)
+// : Promise<FormattedCustomersTable[]>
+ {
+
+  noStore();
+
+  // commencer la pagination a partir de 0
+  // offset definit le nombre d'elements a sauter avant de commencer a recuperer les elements cest a dire le point de depart des elements a recuperer
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const data = await sql<CustomersTableType>`
+            SELECT
+            customers.id,
+            customers.name,
+            customers.email,
+            customers.image_url,
+
+            COUNT(invoices.id) AS total_invoices,
+            SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
+            SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
+
+            FROM customers
+            LEFT JOIN invoices ON customers.id = invoices.customer_id
+
+            WHERE
+                customers.name ILIKE ${`%${query}%`} OR
+            customers.email ILIKE ${`%${query}%`}
+            GROUP BY customers.id, customers.name, customers.email, customers.image_url
+            ORDER BY customers.name ASC`;
+
+    // formater les donnees pour l'affichage
+    // const customers: FormattedCustomersTable[] = data.rows.map((customer) => ({
+    //   ...customer,
+    //   total_invoices: Number(customer.total_invoices ?? 0),
+    //   total_pending: formatCurrency(Number(customer.total_pending ?? 0)),
+    //   total_paid: formatCurrency(Number(customer.total_paid ?? 0)),
+    // }));
+
+    // formater les donnees pour l'affichage
+    const customers= data.rows.map((customer) => ({
+      ...customer,
+      total_pending: formatCurrency(customer.total_pending ?? 0),
+      total_paid: formatCurrency(customer.total_paid ?? 0),
+    }));
+
+    console.log("customers");
+    console.log(customers);
+
+    return customers;
+  } catch (error) {
+    console.error("Error fetching filtered customers:", error);
+    throw new Error("Failed to fetch filtered customers");
+  }
 }
