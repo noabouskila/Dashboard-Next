@@ -20,6 +20,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dashboard-next-a4ox.vercel.app/"),
+  
   title: {
     template: "%s | Tableau de bord Acme ",
     default: "Tableau de bord Acme",
