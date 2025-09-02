@@ -1,10 +1,11 @@
 import BreadCrumbs from "@/app/ui/invoicesUi/breadCrumbs"
 import CreateForm from "@/app/ui/invoicesUi/createForm";
 import { fetchCustomers } from "@/app/lib/data";
+import type { Metadata } from "next";
 
-
-
-
+export const metadata: Metadata = {
+  title: "Creer une facture",
+};
 
 export default async function  CreateInvoices() {
 

@@ -19,8 +19,11 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "excercice app next?js Dashboard avec app Router",
+  title: {
+    template: "%s | Tableau de bord Acme ",
+    default: "Tableau de bord Acme",
+  },
+  description: "Appli Next.js Dashboard avec app Router",
 };
 
 export default function RootLayout({

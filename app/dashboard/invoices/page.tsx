@@ -6,7 +6,11 @@ import { Suspense } from 'react';
 import { InvoicesTableSkeleton } from "@/app/ui/skeletons"
 import { fetchInvoicesPages } from "@/app/lib/data"
 import Pagination from "@/app/ui/invoicesUi/pagination";
+import type { Metadata } from "next";
 
+export const metadata : Metadata = {
+  title: "Factures"
+};
 
 export default async function Invoices( {searchParams} :
     {   searchParams?: {
@@ -17,9 +21,6 @@ export default async function Invoices( {searchParams} :
 
         const query = searchParams?.query || "";
         const currentPage = Number(searchParams?.page )|| 1;
-
-        // console.log("query", query);
-        // console.log("currentPage", currentPage);
 
         // recuperer le nombre total de pages
         const totalPages = await fetchInvoicesPages( query );

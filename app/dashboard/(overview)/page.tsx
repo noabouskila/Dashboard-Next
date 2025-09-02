@@ -1,26 +1,18 @@
 import { lusitana } from "@/app/ui/fonts"
-// import { Card } from '@/app/ui/dashboardUi/cards'
-// import { fetchCardData ,fetchRevenue  , fetchLatestInvoices} from "@/app/lib/data"
-// import { fetchCardData  } from "@/app/lib/data"
 import  RevenueChart  from "@/app/ui/dashboardUi/revenue-chart"
 import LatestInvoices from "@/app/ui/dashboardUi/latest-invoices"
 import { Suspense } from "react";
 import { RevenueChartSkeleton ,LatestInvoicesSkeleton, CardsSkeleton} from "@/app/ui/skeletons"
 import CardWrapper from "@/app/ui/dashboardUi/cards"
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin",
+};
 
 
 export  default  async function Page(){
     
-    // const revenue = await fetchRevenue();
-
-    // const {collected , pending ,customers , invoices} =  await fetchCardData();
-    //  const latestInvoices = await fetchLatestInvoices();
-
-    // //  on verifie si les donnees sont vides
-    // if(!revenue || !collected || !pending || !customers || !invoices || !latestInvoices){
-    //     return <div className="text-center">Aucune donnée disponible</div>
-    // }
-
     return (
         
         <main >
@@ -45,7 +37,6 @@ export  default  async function Page(){
 
             {/* 5 dernieres factures avec leurs infos */}
              <Suspense fallback={<LatestInvoicesSkeleton />} >
-               {/* <LatestInvoices LatestInvoices={latestInvoices} /> */}
                 <LatestInvoices  />
              </Suspense>
            

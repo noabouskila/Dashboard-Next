@@ -3,6 +3,11 @@ import { fetchCustomers } from '@/app/lib/data';
 import BreadCrumbs from '@/app/ui/invoicesUi/breadCrumbs';
 import EditForm from '@/app/ui/invoicesUi/EditForm';
 import { notFound } from 'next/navigation';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Modifier une facture",
+};
 
 
 export default async function EditInvoice( {params} :{  params: {id:string}} ){4
