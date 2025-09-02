@@ -135,25 +135,26 @@ export async function UpdateInvoiceAction( id:string ,prevState:State , formData
 }
 
 
-export async function DeleteInvoiceAction(id: string) {
-    // throw new Error("simulation d'erreur : echec de la suprresion de la facture");
+export async function DeleteInvoiceAction(
+  id: string
+): Promise<void> {
+  // throw new Error("simulation d'erreur : echec de la suprresion de la facture");
 
-    try {
-
+  try {
     await sql`
         DELETE FROM invoices 
         WHERE id = ${id}
          `;
 
-  // vider le cache  de route coté client puis le mettre a jour
-  revalidatePath("/dashboard/invoices");
-
-    }catch (error) {
-        return {
-            message:
-                "erreur base de donnée  : echec  lors de la suppression de la facture",
-        };  
-     
+    // vider le cache  de route coté client puis le mettre a jour
+    revalidatePath("/dashboard/invoices");
+  } catch (error) {
+    // return {
+    //   message:
+    //     "erreur base de donnée  : echec  lors de la suppression de la facture",
+    console.error("Erreur lors de la suppression :", error)
+    // };
+    
   }
 }
 

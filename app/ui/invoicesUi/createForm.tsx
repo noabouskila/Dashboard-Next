@@ -9,11 +9,11 @@ import {
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { CustomerField } from "@/app/lib/definitions";
-import { createInvoiceAction } from "@/app/lib/actions";
+import { createInvoiceAction, State } from "@/app/lib/actions";
 
 export default function CreateForm({ customers }:{ customers : CustomerField[]}) {
 
-  const initialState = {
+  const initialState: State = {
     message: "",
     errors: {}
   };

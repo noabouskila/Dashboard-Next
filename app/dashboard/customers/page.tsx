@@ -6,22 +6,24 @@ export const metadata: Metadata = {
   title: "Clients",
 };
 
-interface CustomersPageProps {
-  searchParams?: {
+
+export default async function Page(props: {
+  searchParams?: Promise<{
     query?: string;
-  };
+    page?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+
+  const query = searchParams?.query || "";
+
+  const customers = await fetchFilteredCustomers(query);
+
+  return (
+    <main>
+      <CustomersTable customers={customers} />
+    </main>
+  );
 }
 
-export default async function Page({searchParams} : CustomersPageProps) {
 
-   const query = searchParams?.query ?? "";
-    // const currentPage = parseInt(searchParams?.page || "1", 10);
-
-    const customers = await fetchFilteredCustomers(query );
-
-    return (
-        <main>
-        <CustomersTable customers={customers} />
-        </main>
-    );
-}

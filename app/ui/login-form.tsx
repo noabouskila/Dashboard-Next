@@ -8,15 +8,16 @@ import {
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { lusitana } from "./fonts";
 import { Button } from "./button";
-import { useFormStatus } from "react-dom";
 import { authenticate } from "@/app/lib/actions";
 import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
+
+
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
-  const [errorMessage, dispatch] = useActionState(authenticate, undefined);
+  const [errorMessage, dispatch , isPending] = useActionState(authenticate, undefined);
 
   return (
     <form action={dispatch} className="space-y-3">
@@ -63,10 +64,15 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        {/* champ caché pour la redirection après connexion */}
+
+        {/* <LoginButton /> */}
         <input type="hidden" name="redirectTo" value={callbackUrl} />
 
-        <LoginButton />
+        <Button className="mt-4 w-full" aria-disabled={isPending}>
+          Connexion
+          <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+        </Button>
+
         <div
           className="flex h-8 items-end space-x-1"
           aria-live="polite"
@@ -84,12 +90,12 @@ export default function LoginForm() {
   );
 }
 
-function LoginButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button className="mt-4 w-full" aria-disabled={pending}>
-      Se connecter
-      <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
-  );
-}
+// function LoginButton() {
+//   const { pending } = useFormStatus();
+//   return (
+//     <Button className="mt-4 w-full" aria-disabled={pending}>
+//       Se connecter
+//       <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+//     </Button>
+//   );
+// }

@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { Button } from "@/app/ui/button";
 import { CustomerField, InvoiceForm } from "@/app/lib/definitions";
-import { UpdateInvoiceAction } from "@/app/lib/actions";
+import { State, UpdateInvoiceAction } from "@/app/lib/actions";
 
 export default function EditForm({
   customers,
@@ -18,8 +18,8 @@ export default function EditForm({
   customers: CustomerField[];
   invoice: InvoiceForm;
 }) {
-  const initialState = {
-    message: "",
+  const initialState : State= {
+    message: null,
     errors: {},
   };
 
