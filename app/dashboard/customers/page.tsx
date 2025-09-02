@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 
-export default async function Page({searchParams} : {searchParams?: {query?: string, page?: string}}) {
+export default async function Page({searchParams} : {searchParams?: {query?: string}}) {
 
     const query = searchParams?.query || "";
     // const currentPage = parseInt(searchParams?.page || "1", 10);
