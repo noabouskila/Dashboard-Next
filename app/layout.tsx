@@ -28,6 +28,8 @@ export const metadata: Metadata = {
   description: "Appli Next.js Dashboard avec app Router",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
