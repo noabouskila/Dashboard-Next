@@ -268,7 +268,7 @@ export async function fetchInvoiceById(id : string){
     }
 }
 
-export async function fetchFilteredCustomers(query: string){
+export async function fetchFilteredCustomers(query: string) {
 
   noStore();
 
