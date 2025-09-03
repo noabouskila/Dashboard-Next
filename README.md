@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🖥️ Dashboard-Next
 
-## Getting Started
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/) 
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/) 
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
-First, run the development server:
+
+## 🚀 Aperçu
+
+Dashboard-Next est un tableau de bord moderne et réactif construit avec **Next.js** et **Tailwind CSS**.  
+pour visualiser des données et gérer des interfaces administratives de manière efficace.
+
+
+🔗 **Démo en ligne** : [Voir la démo](https://dashboard-next-noa.vercel.app)
+---
+## 📸 Aperçu visuel
+
+![Capture 1](./public/hero-desktop.png)
+
+---
+
+## 🧪 Installation
+
+Clone le repository et installe les dépendances :
 
 ```bash
+git clone https://github.com/noabouskila/Dashboard-Next.git
+cd Dashboard-Next
+npm install
+
+Lancer le projet en local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# Accédez à http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+📦 Déploiement
+Déploiement facile sur Vercel :
+Connectez-vous à Vercel
+Importez ce repository
+Cliquez sur "Deploy"
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+## 🛠️ Fonctionnalités
 
-To learn more about Next.js, take a look at the following resources:
+- Interface utilisateur moderne et responsive  
+- Authentification sécurisée avec **NextAuth.js**  
+- Routage avancé avec **Next.js App Router** : layouts, routes statiques et dynamiques  
+- Composants côté serveur et côté client (**Server Components & Client Components**)  
+- Gestion de bases de données SQL (**PostgreSQL**)
+- CRUD complet : création, lecture, mise à jour, suppression via API routes  
+- Actions Serveur et validation de données côté serveur  
+- Rendu statique et dynamique (**SSG, SSR, streaming**)  
+- Optimisation des performances : images, polices, icônes  
+- Authentification et sécurité : protection des routes, hachage des mots de passe  
+- Déploiement sur **Vercel** avec SEO et métadatas  
+- Accessibilité et UX : gestion des erreurs, interface responsive
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📸 Aperçu visuel
 
-## Deploy on Vercel
+![Capture 1](./public/hero-desktop.png)  
+![Capture 2](./public/monsiteDashboardNext.mp4)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+📄 Technologies utilisées
+Frontend : Next.js, React, Tailwind CSS
+Authentification : NextAuth.js
+bdd : PostgreSql
+Déploiement : Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+📬 Contact
+Auteur : noabouskila
+Email : noabouskil@gmail.com
